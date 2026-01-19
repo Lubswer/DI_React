@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import administrativas from '../images/ADMINISTRATIVAS.webp';
 import ciencias from '../images/CIENCIAS-02.webp';
 import civil from '../images/CIVIL-10-10.webp';
@@ -10,8 +9,6 @@ import quimica from '../images/QUIMICA.webp';
 import sistemas from '../images/SISTEMAS.webp';
 
 export default function Facultades() {
-  const [busqueda, setBusqueda] = useState('');
-
   const facultades = [
     { nombre: 'ADMINISTRATIVAS', imagen: administrativas },
     { nombre: 'CIENCIAS', imagen: ciencias },
@@ -24,45 +21,36 @@ export default function Facultades() {
     { nombre: 'SISTEMAS', imagen: sistemas },
   ];
 
-  const facultadesFiltradas = facultades.filter(facultad =>
-    facultad.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
-
   return (
     <div className="w-full">
-      {/* CABECERA */}
-      <section className="text-center pt-8 pb-6 px-[5%]">
-        <h2 className="text-[32px] md:text-[48px] leading-tight font-extrabold mb-4 bg-gradient-to-b from-white to-gray-500 text-transparent bg-clip-text">
+      {/* CABECERA CON BOTONES */}
+      <section className="sticky top-0 z-50 flex justify-between items-center pt-6 pb-6 px-[5%] bg-[rgba(5,5,5,0.95)] border-b border-white/20 backdrop-blur-sm shadow-lg">
+        <button className="flex items-center gap-2 text-white hover:text-white hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] transition duration-300 rounded-lg px-3 py-2">
+          <i className="fa-solid fa-user text-lg" />
+          <span className="text-sm font-semibold uppercase">Perfil</span>
+        </button>
+
+        <h2 className="text-[28px] md:text-[42px] leading-tight font-extrabold bg-gradient-to-b from-white to-gray-400 text-transparent bg-clip-text">
           Bienvenidos a ALU
         </h2>
+
+        <button className="flex items-center gap-2 text-white hover:text-white hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] transition duration-300 rounded-lg px-3 py-2">
+          <span className="text-sm font-semibold uppercase">Ajustes</span>
+          <i className="fa-solid fa-gear text-lg" />
+        </button>
       </section>
 
-      {/* TÍTULO Y BUSCADOR */}
-      <section className="text-center pb-10 px-[5%]">
+      {/* TÍTULO */}
+      <section className="text-center pt-20 pb-10 px-[5%]">
         <h1 className="text-[42px] md:text-[60px] leading-tight font-extrabold mb-8 bg-gradient-to-b from-white to-gray-500 text-transparent bg-clip-text">
           FACULTADES
         </h1>
-
-        {/* SEARCH BAR */}
-        <div className="max-w-[500px] mx-auto mb-8">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Buscar facultad..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              className="w-full px-6 py-3 rounded-[15px] bg-white/5 border border-white/30 text-white placeholder-[#888] focus:outline-none focus:border-white/60 transition duration-300 focus:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-            />
-            <i className="fa-solid fa-magnifying-glass absolute right-5 top-1/2 transform -translate-y-1/2 text-[#888]" />
-          </div>
-        </div>
       </section>
 
       {/* GRID 3x3 DE FACULTADES */}
       <section className="w-full px-[5%] py-10 max-w-[1400px] mx-auto">
-        {facultadesFiltradas.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {facultadesFiltradas.map((facultad, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {facultades.map((facultad, index) => (
               <div
                 key={index}
                 className="relative overflow-hidden rounded-[15px] border border-white/10 transition duration-700 hover:-translate-y-1 hover:border-white/40 group cursor-pointer"
@@ -77,13 +65,7 @@ export default function Facultades() {
                 </div>
               </div>
             ))}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <i className="fa-solid fa-search text-[60px] text-[#888] mb-5 block" />
-            <p className="text-[#888] text-lg">No se encontraron facultades con "{busqueda}"</p>
-          </div>
-        )}
+        </div>
       </section>
 
       {/* FOOTER */}
