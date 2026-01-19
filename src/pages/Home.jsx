@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <div className="w-full">
       {/* HEADER */}
@@ -31,7 +33,7 @@ export default function Home() {
           Tu espacio digital para aprender, conectar y colaborar.
         </p>
 
-        <button className="border border-white/30 px-[30px] py-[15px] text-lg font-bold tracking-[2px] rounded transition-all duration-700 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:rounded-2xl cursor-pointer">
+        <button onClick={() => navigate("/Facultades")} className="border border-white/30 px-[30px] py-[15px] text-lg font-bold tracking-[2px] rounded transition-all duration-700 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:rounded-2xl cursor-pointer">
           Comienza Ahora
         </button>
       </section>

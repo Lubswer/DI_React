@@ -1,0 +1,219 @@
+/* ❌ NO reset, NO body en CSS Modules */
+
+/* --- MENÚ LATERAL FIJO --- */
+.sidebarMenu {
+  position: fixed;
+  left: 40px;
+  top: 40px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  z-index: 10;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.menuItem:hover {
+  color: #aaa;
+  transform: translateX(5px);
+}
+
+.menuItem i {
+  width: 30px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* --- CONTENEDOR GENERAL --- */
+.layoutContainer {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 60px;
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+/* --- FEED CENTRAL --- */
+.mainFeed {
+  width: 650px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.searchBarContainer {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 30px;
+  padding: 15px 25px;
+  color: white;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.searchInput:focus {
+  border-color: #555;
+}
+
+/* --- TARJETA POST --- */
+.postCard {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.postContentBox {
+  background-color: #222;
+  border-radius: 8px;
+  padding: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  border: 1px dashed #444;
+}
+
+.folderIcon {
+  font-size: 100px;
+  color: #ffc107;
+}
+
+.postActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.postActions i:hover {
+  color: white;
+  cursor: pointer;
+}
+
+/* --- PANEL DERECHO --- */
+.rightPanel {
+  width: 320px;
+  position: sticky;
+  top: 40px;
+}
+
+.uploadCard {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.inputLabel {
+  display: block;
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #bbb;
+  font-weight: bold;
+}
+
+.textAreaCustom {
+  width: 100%;
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 8px;
+  color: white;
+  padding: 15px;
+  margin-bottom: 25px;
+  resize: none;
+}
+
+.fileUploadBtn {
+  background-color: #e0e0e0;
+  color: #000;
+  border: none;
+  padding: 6px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.publishBtn {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+  padding: 10px 40px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.publishBtn:hover {
+  background-color: #555;
+  border-color: #777;
+  transform: scale(1.05);
+}
+
+/* --- CAMPANA --- */
+.bellFloat {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: #ffc107;
+  color: black;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+  z-index: 100;
+}
+
+.bellFloat:hover {
+  transform: scale(1.1);
+}
