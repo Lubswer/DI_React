@@ -1,14 +1,5 @@
-import React from 'react';
-// Importamos TU página. Fíjate que la ruta coincida con donde guardaste el archivo
-import Esfot from './pages/Esfot'; 
+import Home from "./pages/Home";
 
-function App() {
-  return (
-    <div>
-      {/* Aquí renderizamos tu componente */}
-      <Esfot />
-    </div>
-  );
+export default function App() {
+  return <Home />;
 }
-
-export default App;
