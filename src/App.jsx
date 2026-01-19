@@ -1,5 +1,5 @@
-import Home from "./pages/Home";
+import Facultades from "./pages/Facultades";
 
 export default function App() {
-  return <Home />;
+  return <Facultades />;
 }
