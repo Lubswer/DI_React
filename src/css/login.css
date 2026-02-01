@@ -1,0 +1,127 @@
+/* Login.css */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  width: 660px;
+  height: 440px;
+  border-radius: 16px;
+  background: #141317;
+}
+
+.card-bg {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 50%;
+  background: #8d00ff;
+  translate: 0 0;
+  transition: 0.65s;
+}
+
+.card-bg.signin {
+  translate: 100% 0;
+}
+
+.hero, .form {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  transition: 0.65s;
+}
+
+.form.signup {
+  left: 50%;
+}
+
+.hero.signin {
+  left: 50%;
+  translate: 100% 0;
+}
+
+.hero.signin.active {
+  translate: 0;
+}
+
+.hero.signup {
+  translate: -100% 0;
+}
+
+.hero.signup.active {
+  translate: 0;
+}
+
+.hero {
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 50%;
+  color: #f9f9f9;
+  padding: 0 24px;
+}
+
+/* Login3.css */
+
+h2 {
+  margin: 0;
+  font-weight: 500;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.form.signin {
+  translate: -100% 0;
+}
+
+.form.signin.active {
+  translate: 0;
+}
+
+.form.signup {
+  translate: 100% 0;
+}
+
+.form.signup.active {
+  translate: 0;
+}
+
+.form {
+  background: inherit;
+  z-index: 1;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px;
+}
+
+.form p {
+  color: #8d889d;
+  font-size: 12px;
+}
+
+.form input {
+  border-radius: 10px;
+  border: 0;
+  background: #1f1b2b;
+  padding: 14px 12px;
+}
+
+.form button {
+  border: 0;
+  padding: 14px 0;
+  border-radius: 32px;
+  color: #f9f9f9;
+  width: 160px;
+  background: #8d00ff;
+}

@@ -14,10 +14,10 @@ export default function Home() {
           <a className="ml-5 text-sm font-semibold uppercase text-[#888] hover:text-white cursor-pointer">
             Tutorial
           </a>
-          <a className="ml-5 text-sm font-semibold uppercase text-[#888] hover:text-white cursor-pointer">
+          <a onClick={() => navigate("/login")} className="ml-5 text-sm font-semibold uppercase text-[#888] hover:text-white cursor-pointer">
             Login
           </a>
-          <a className="ml-5 border border-white/30 px-5 py-2 rounded text-white transition-all duration-700 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:rounded-2xl cursor-pointer">
+          <a onClick={() => navigate("/registro")} className="ml-5 border border-white/30 px-5 py-2 rounded text-white transition-all duration-700 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:rounded-2xl cursor-pointer">
             Regístrate
           </a>
         </nav>
