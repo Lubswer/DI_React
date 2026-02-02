@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
@@ -57,13 +57,16 @@ const AuthForm = ({ type, active, title, children }) => (
             <h2 className="text-2xl md:text-3xl font-extrabold mb-4 text-white text-center">{title}</h2>
             <SSOButtons />
             <p className="text-center text-gray-400 text-xs md:text-sm my-4">usa tu correo electrónico:</p>
-            <form className="space-y-3">{children}</form>
+            <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>{children}</form>
         </div>
     </div>
 );
 
 export const Login = ({ initialView = "signup" }) => {
     const navigate = useNavigate();
+    const isMountedRef = useRef(true);
+    const timeoutRef = useRef(null);
+    
     const [view, setView] = useState(initialView === "login" ? "login" : "signup");
     const isSignup = view === "signup";
     
@@ -82,7 +85,26 @@ export const Login = ({ initialView = "signup" }) => {
     
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [loading, setLoading] = useState(false);
+    
+    const [toast, setToast] = useState({ message: "", type: "", visible: false });
+
+    const showToast = (message, type = "success", duration = 3000) => {
+        setToast({ message, type, visible: true });
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            setToast(t => ({ ...t, visible: false }));
+        }, duration);
+    };
+
+    // Limpiar al desmontar el componente y cancelar timeouts
+    useEffect(() => {
+        return () => {
+            isMountedRef.current = false;
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
 
     const toggleView = () => setView(isSignup ? "login" : "signup");
 
@@ -108,22 +130,33 @@ export const Login = ({ initialView = "signup" }) => {
     const handleSignup = async (e) => {
         e.preventDefault();
         setError("");
-        setSuccess("");
-        setLoading(true);
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(
+            console.log("Iniciando registro...");
+            const user = (await createUserWithEmailAndPassword(
                 auth,
                 signupData.email,
                 signupData.password
-            );
-            const user = userCredential.user;
+            )).user;
 
-            // Actualizar perfil con el nombre
-            await updateProfile(user, { displayName: signupData.nombre });
+            console.log("Usuario creado en Auth:", user.uid);
 
-            // Guardar datos en Firestore
-            await setDoc(doc(db, "users", user.uid), {
+            // Mostrar éxito INMEDIATAMENTE
+            setSuccess("¡Cuenta creada exitosamente!");
+            showToast("Usuario registrado con éxito.", "success", 1200);
+            setSignupData({ nombre: "", email: "", password: "" });
+            
+            // Limpiar mensaje de éxito después de 3 segundos
+            setTimeout(() => {
+                setSuccess("");
+            }, 3000);
+
+            // Hacer updateProfile y setDoc en background (sin await)
+            updateProfile(user, { displayName: signupData.nombre })
+                .then(() => console.log("Perfil actualizado"))
+                .catch(err => console.error("Error en updateProfile:", err));
+
+            setDoc(doc(db, "users", user.uid), {
                 nombre: signupData.nombre,
                 email: signupData.email,
                 edad: "",
@@ -134,22 +167,21 @@ export const Login = ({ initialView = "signup" }) => {
                 quieroAprender: "",
                 proyectos: "",
                 createdAt: new Date()
-            });
-
-            // Limpiar formulario
-            setSignupData({ nombre: "", email: "", password: "" });
-            
-            // Mostrar mensaje de éxito
-            setSuccess("¡Cuenta creada exitosamente! Redirigiendo...");
-            setLoading(false);
-            
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                navigate("/facultades");
-            }, 2000);
+            })
+                .then(() => console.log("Documento de usuario creado en Firestore"))
+                .catch(err => console.error("Error en setDoc:", err));
         } catch (err) {
-            setError(err.message);
-            setLoading(false);
+            console.error("Error en registro:", err);
+            let message = "Ocurrió un error al crear la cuenta.";
+            if (err && err.code === "auth/email-already-in-use") {
+                message = "Este correo electrónico ya está registrado.";
+            } else if (err && err.code === "auth/weak-password") {
+                message = "La contraseña debe tener al menos 6 caracteres.";
+            } else if (err && err.code === "auth/invalid-email") {
+                message = "El correo electrónico no es válido.";
+            }
+            setError(message);
+            showToast(message, "error", 3000);
         }
     };
 
@@ -157,7 +189,6 @@ export const Login = ({ initialView = "signup" }) => {
     const handleSignin = async (e) => {
         e.preventDefault();
         setError("");
-        setLoading(true);
 
         try {
             await signInWithEmailAndPassword(
@@ -165,22 +196,31 @@ export const Login = ({ initialView = "signup" }) => {
                 signinData.email,
                 signinData.password
             );
-
-            // Limpiar formulario
-            setSigninData({ email: "", password: "" });
             
-            // Redirigir
-            navigate("/facultades");
+            showToast("Sesión iniciada con éxito.", "success", 1200);
+            setSigninData({ email: "", password: "" });
+            navigate("/home");
         } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            let message = "Ocurrió un error al iniciar sesión.";
+            if (err && err.code === "auth/user-not-found") {
+                message = "Usuario no encontrado.";
+            } else if (err && err.code === "auth/wrong-password") {
+                message = "Contraseña incorrecta.";
+            } else if (err && err.code === "auth/invalid-email") {
+                message = "El correo electrónico no es válido.";
+            }
+            setError(message);
+            showToast(message, "error", 3000);
         }
     };
 
-
     return (
         <div className="min-h-screen font-['Outfit'] text-white bg-[#050505] bg-[radial-gradient(circle_at_top_center,_#1a1a1a,_#050505)] flex flex-col">
+            {toast.visible && (
+                <div className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-md text-sm ${toast.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
+                    {toast.message}
+                </div>
+            )}
             {/* Botón Volver */}
             <button
                 onClick={() => navigate("/")}
@@ -225,7 +265,7 @@ export const Login = ({ initialView = "signup" }) => {
                     {/* Sign Up Form */}
                     <AuthForm type="signup" active={isSignup} title="CREAR CUENTA">
                         {error && <p style={{ color: "#ff6b6b", fontSize: "12px" }}>{error}</p>}
-                        {success && <p style={{ color: "#4ade80", fontSize: "12px" }}>{success}</p>}
+                        {success && <p style={{ color: "#4ade80", fontSize: "14px", fontWeight: "bold", padding: "8px", backgroundColor: "rgba(74, 222, 128, 0.1)", borderRadius: "6px", border: "1px solid #4ade80" }}>{success}</p>}
                         <input
                             type="text"
                             name="nombre"
@@ -254,11 +294,11 @@ export const Login = ({ initialView = "signup" }) => {
                             required
                         />
                         <button 
-                            onClick={handleSignup} 
-                            disabled={loading}
-                            className="w-40 py-2 rounded-full bg-white text-black font-extrabold hover:bg-gray-200 transition-all uppercase text-sm disabled:opacity-50 mx-auto mt-2"
+                            type="button"
+                            onClick={handleSignup}
+                            className="w-40 py-2 rounded-full bg-white text-black font-extrabold hover:bg-gray-200 transition-all uppercase text-sm mx-auto mt-2"
                         >
-                            {loading ? "REGISTRANDO..." : "REGISTRARSE"}
+                            REGISTRARSE
                         </button>
                     </AuthForm>
 
@@ -289,11 +329,11 @@ export const Login = ({ initialView = "signup" }) => {
                             </a>
                         </div>
                         <button 
-                            onClick={handleSignin} 
-                            disabled={loading}
-                            className="w-40 py-2 rounded-full bg-white text-black font-extrabold hover:bg-gray-200 transition-all uppercase text-sm disabled:opacity-50 mx-auto mt-2"
+                            type="button"
+                            onClick={handleSignin}
+                            className="w-40 py-2 rounded-full bg-white text-black font-extrabold hover:bg-gray-200 transition-all uppercase text-sm mx-auto mt-2"
                         >
-                            {loading ? "INICIANDO..." : "INICIAR SESIÓN"}
+                            INICIAR SESIÓN
                         </button>
                     </AuthForm>
                 </div>
@@ -305,12 +345,9 @@ export const Login = ({ initialView = "signup" }) => {
                 <div className="text-sm text-[#888]">
                     © Todos los derechos reservados por ALU
                 </div>
-
                 <div className="flex gap-10 text-[35px]">
                     <i className="fa-brands fa-instagram text-[35px] transition duration-700 hover:bg-[#ffffffc2] py-[10px] px-[15px] rounded-[50%] hover:text-black hover:shadow-[0_0_20px_rgb(255,255,255,0.3)] cursor-pointer" />
-
                     <i className="fa-brands fa-facebook-f text-[35px] transition duration-700 hover:bg-[#ffffffc2] py-[10px] px-[18px] rounded-[50%] hover:text-black hover:shadow-[0_0_20px_rgb(255,255,255,0.3)] cursor-pointer" />
-
                     <i className="fa-brands fa-x-twitter text-[35px] transition duration-700 hover:bg-[#ffffffc2] py-[10px] px-[13px] rounded-[50%] hover:text-black hover:shadow-[0_0_20px_rgb(255,255,255,0.3)] cursor-pointer" />
                 </div>
             </footer>
