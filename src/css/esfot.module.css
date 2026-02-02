@@ -217,3 +217,87 @@
 .bellFloat:hover {
   transform: scale(1.1);
 }
+
+/* --- ESTILOS DE AVATAR Y USUARIO --- */
+.avatarImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.userName {
+  font-weight: bold;
+}
+
+.userDate {
+  font-size: 0.8rem;
+  color: #888;
+  margin-left: 10px;
+}
+
+.menuBtn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.postDescription {
+  margin-bottom: 15px;
+}
+
+/* --- ESTILOS DE CONTENIDO --- */
+.postImage {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.pdfContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+.pdfIcon {
+  font-size: 4rem;
+  color: #e74c3c;
+}
+
+.pdfFileName {
+  color: #888;
+  margin-top: 10px;
+}
+
+.actionIcon {
+  cursor: pointer;
+}
+
+/* --- ESTILOS DEL FORMULARIO --- */
+.fileInputContainer {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.fileNameText {
+  font-size: 0.7rem;
+  color: #666;
+  margin-left: 10px;
+}
+
+.previewContainer {
+  margin-bottom: 15px;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 8px;
+  border: 1px solid #333;
+}

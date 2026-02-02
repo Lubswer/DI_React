@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
-
+import Swal from "sweetalert2";
 const SSOButtons = () => (
     <div className="flex gap-4 justify-center">
         <button type="button" disabled className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition opacity-50">
@@ -197,9 +197,18 @@ export const Login = ({ initialView = "signup" }) => {
                 signinData.password
             );
             
-            showToast("Sesión iniciada con éxito.", "success", 1200);
-            setSigninData({ email: "", password: "" });
-            navigate("/home");
+Swal.fire({
+  icon: "success",
+  title: "¡Login exitoso!",
+  text: "Bienvenido a Alu",
+  background: "#1e1e1e",
+  color: "#ffffff",
+  confirmButtonColor: "#3085d6",
+}).then(() => {
+  setSigninData({ email: "", password: "" });
+  navigate("/facultades");
+});
+
         } catch (err) {
             let message = "Ocurrió un error al iniciar sesión.";
             if (err && err.code === "auth/user-not-found") {
