@@ -1,0 +1,64 @@
+{
+  "publicaciones": [
+    {
+      "id": 1,
+      "usuario": "María García",
+      "fecha": "28/01/2026",
+      "descripcion": "Apuntes de Cálculo Diferencial - Derivadas e integrales 📚",
+      "tipo": "pdf",
+      "nombreArchivo": "Calculo_Apuntes.pdf",
+      "urlArchivo": null,
+      "facultad": "ESFOT"
+    },
+    {
+      "id": 2,
+      "usuario": "Carlos Mendoza",
+      "fecha": "27/01/2026",
+      "descripcion": "Mi proyecto de Programación Web con React 🚀",
+      "tipo": "imagen",
+      "nombreArchivo": "imagenP1.jpg",
+      "urlArchivo": "/imagenes/imagenP1.jpg",
+      "facultad": "ESFOT"
+    },
+    {
+      "id": 3,
+      "usuario": "Ana Rodríguez",
+      "fecha": "25/01/2026",
+      "descripcion": "Resumen de Física II - Electromagnetismo ⚡",
+      "tipo": "pdf",
+      "nombreArchivo": "Fisica_II_Resumen.pdf",
+      "urlArchivo": null,
+      "facultad": "ESFOT"
+    },
+    {
+      "id": 4,
+      "usuario": "Luis Herrera",
+      "fecha": "24/01/2026",
+      "descripcion": "Diagrama de base de datos del proyecto final 💾",
+      "tipo": "imagen",
+      "nombreArchivo": "imagenP2.avif",
+      "urlArchivo": "/imagenes/imagenP2.avif",
+      "facultad": "ESFOT"
+    },
+    {
+      "id": 5,
+      "usuario": "Pedro López",
+      "fecha": "23/01/2026",
+      "descripcion": "Ejercicios resueltos de Resistencia de Materiales 🔧",
+      "tipo": "pdf",
+      "nombreArchivo": "Resistencia_Materiales.pdf",
+      "urlArchivo": null,
+      "facultad": "MECANICA"
+    },
+    {
+      "id": 6,
+      "usuario": "Laura Sánchez",
+      "fecha": "22/01/2026",
+      "descripcion": "Informe de laboratorio - Circuitos eléctricos ⚡",
+      "tipo": "pdf",
+      "nombreArchivo": "Lab_Circuitos.pdf",
+      "urlArchivo": null,
+      "facultad": "ELECTRICA"
+    }
+  ]
+}
